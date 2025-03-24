@@ -16,7 +16,7 @@ This repository contains various frontend code snippets organized into small pro
 ## 🚀 How to Use
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-username/frontend-code-collection.git
+   git clone https://github.com/fatkhurrhn/frontend-code-collection.git
    ```
 2. Navigate into the project directory:
    ```sh
