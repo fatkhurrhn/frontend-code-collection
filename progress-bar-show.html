@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi Progress Bars</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fbfd;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      color: #222;
+    }
+
+    .bar-container {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .progress-bar {
+      height: 25px;
+      background: #e0e0e0;
+      border-radius: 50px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      border-radius: 50px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    .striped-bar .progress-fill {
+      background: repeating-linear-gradient(
+        45deg,
+        #6a11cb,
+        #6a11cb 10px,
+        #2575fc 10px,
+        #2575fc 20px
+      );
+      animation: moveStripes 1s linear infinite;
+    }
+
+    @keyframes moveStripes {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 0; }
+    }
+
+    .circle-wrapper {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+    }
+
+    .circle-bg {
+      stroke: #e6e6e6;
+      stroke-width: 10;
+    }
+
+    .circle {
+      stroke: #ff6a00;
+      stroke-width: 10;
+      stroke-linecap: round;
+      fill: none;
+      stroke-dasharray: 314;
+      stroke-dashoffset: 314;
+      transition: stroke-dashoffset 0.3s ease;
+    }
+
+    .circle-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: 18px;
+      color: #ff6a00;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #0072ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0059c1;
+    }
+  </style>
+</head>
+<body>
+
+    <div style="text-align: center;">
+        <h1 style="text-align:center;">Progress Bar Show</h1>
+        <P>by Fatkhurrhn</P>
+    </div>
+  <!-- Basic Progress Bar -->
+  <div class="bar-container">
+    <h3>Basic Progress Bar</h3>
+    <div class="progress-bar">
+      <div id="bar1" class="progress-fill"></div>
+    </div>
+    <div id="text1" class="progress-text">0%</div>
+  </div>
+
+  <!-- Striped Progress Bar -->
+  <div class="bar-container striped-bar">
+    <h3>Striped Progress Bar</h3>
+    <div class="progress-bar">
+      <div id="bar2" class="progress-fill"></div>
+    </div>
+    <div id="text2" class="progress-text">0%</div>
+  </div>
+
+  <!-- Circular Progress Bar -->
+  <div class="bar-container">
+    <h3>Circular Progress</h3>
+    <div class="circle-wrapper">
+      <svg width="120" height="120">
+        <circle class="circle-bg" cx="60" cy="60" r="50"/>
+        <circle id="circle" class="circle" cx="60" cy="60" r="50"/>
+      </svg>
+      <div id="circle-text" class="circle-text">0%</div>
+    </div>
+  </div>
+
+  <button onclick="startProgress()">Start All</button>
+
+  <script>
+    function animateBar(id, textId, duration = 2000) {
+      let bar = document.getElementById(id);
+      let text = document.getElementById(textId);
+      let width = 0;
+      let interval = setInterval(() => {
+        if (width >= 100) {
+          clearInterval(interval);
+        } else {
+          width++;
+          bar.style.width = width + "%";
+          text.textContent = width + "%";
+        }
+      }, duration / 100);
+    }
+
+    function animateCircle(duration = 2000) {
+      let circle = document.getElementById("circle");
+      let text = document.getElementById("circle-text");
+      let percent = 0;
+      let interval = setInterval(() => {
+        if (percent >= 100) {
+          clearInterval(interval);
+        } else {
+          percent++;
+          let offset = 314 - (314 * percent / 100);
+          circle.style.strokeDashoffset = offset;
+          text.textContent = percent + "%";
+        }
+      }, duration / 100);
+    }
+
+    function startProgress() {
+      animateBar("bar1", "text1");
+      animateBar("bar2", "text2");
+      animateCircle();
+    }
+  </script>
+</body>
+</html>

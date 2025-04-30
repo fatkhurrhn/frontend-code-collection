@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Link Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .tracking-data {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        #notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tracking Link Generator</h1>
+        
+        <div class="card">
+            <h2>Create Tracking Link</h2>
+            <p>Generate a unique tracking link you can share. When opened, it will record visitor location data.</p>
+            <input type="text" id="linkName" placeholder="Enter a name for this link (e.g., 'Facebook Campaign')">
+            <button id="generateBtn">Generate Tracking Link</button>
+            <div id="generatedLink" style="margin-top: 10px; word-break: break-all;"></div>
+        </div>
+
+        <div class="tracking-data">
+            <h2>Tracking Data</h2>
+            <p>This table shows data collected from people who have clicked your tracking links:</p>
+            <table id="trackingTable">
+                <thead>
+                    <tr>
+                        <th>Link Name</th>
+                        <th>Timestamp</th>
+                        <th>IP Address</th>
+                        <th>Location</th>
+                        <th>Browser</th>
+                        <th>Device</th>
+                    </tr>
+                </thead>
+                <tbody id="trackingData">
+                    <!-- Data will be filled here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="notification">New visitor tracked!</div>
+
+    <script>
+        // Store tracking data in localStorage for this demo
+        if (!localStorage.getItem('trackingData')) {
+            localStorage.setItem('trackingData', JSON.stringify([]));
+        }
+
+        // Function to generate a unique tracking ID
+        function generateTrackingId() {
+            return Math.random().toString(36).substring(2, 15) + 
+                   Math.random().toString(36).substring(2, 15);
+        }
+
+        // Generate tracking link
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            const linkName = document.getElementById('linkName').value.trim();
+            if (!linkName) {
+                alert('Please enter a name for your tracking link');
+                return;
+            }
+
+            const trackingId = generateTrackingId();
+            
+            // Create the tracking link (current URL + track.html with parameters)
+            const currentUrl = window.location.href.split('/').slice(0, -1).join('/');
+            const trackingLink = `${currentUrl}/track.html?id=${trackingId}&name=${encodeURIComponent(linkName)}`;
+            
+            document.getElementById('generatedLink').innerHTML = `
+                <strong>Your tracking link:</strong><br>
+                <a href="${trackingLink}" target="_blank">${trackingLink}</a><br>
+                <button id="copyBtn" style="margin-top: 5px;">Copy Link</button>
+            `;
+
+            document.getElementById('copyBtn').addEventListener('click', function() {
+                navigator.clipboard.writeText(trackingLink).then(function() {
+                    alert('Link copied to clipboard!');
+                });
+            });
+        });
+
+        // Function to display tracking data
+        function displayTrackingData() {
+            const trackingData = JSON.parse(localStorage.getItem('trackingData')) || [];
+            const tableBody = document.getElementById('trackingData');
+            tableBody.innerHTML = '';
+
+            if (trackingData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No tracking data yet</td></tr>';
+                return;
+            }
+
+            trackingData.forEach(data => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data.linkName}</td>
+                    <td>${new Date(data.timestamp).toLocaleString()}</td>
+                    <td>${data.ip || 'N/A'}</td>
+                    <td>${data.location || 'Unknown'}</td>
+                    <td>${data.browser}</td>
+                    <td>${data.device}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Check for new tracking data every 5 seconds
+        setInterval(displayTrackingData, 5000);
+        
+        // Initial display
+        displayTrackingData();
+
+        // For demo purposes, simulate new tracking data
+        function simulateTracking() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => { notification.style.display = 'none'; }, 3000);
+            displayTrackingData();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #dbeafe, #fef9c3);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .container:hover {
+      transform: scale(1.02);
+    }
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      color: #1e3a8a;
+    }
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      border: 2px solid #3b82f6;
+      border-radius: 0.75rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    input:focus {
+      border-color: #1d4ed8;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    #qrcode-wrapper {
+      margin-top: 2rem;
+      background-color: #f0f9ff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 1px dashed #93c5fd;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+      display: none;
+      position: relative;
+    }
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .watermark {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-style: italic;
+      pointer-events: none;
+    }
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QR Code Generator</h1>
+    <input type="text" id="text" placeholder="Masukkan link atau teks..." />
+    <button onclick="generateQRCode()">Generate</button>
+    <div id="qrcode-wrapper">
+      <div id="qrcode"></div>
+      <div class="watermark">@fatkhurrhn</div>
+    </div>
+  </div>
+
+  <script>
+    function generateQRCode() {
+      const text = document.getElementById("text").value;
+      const qrCodeContainer = document.getElementById("qrcode");
+      const wrapper = document.getElementById("qrcode-wrapper");
+
+      if (!text.trim()) {
+        alert("Masukkan link atau teks terlebih dahulu.");
+        return;
+      }
+
+      qrCodeContainer.innerHTML = "";
+      QRCode.toCanvas(text, { width: 200, color: { dark: '#000000',
+      light: '#ffffff' } }, function (error, canvas) {
+        if (error) console.error(error);
+        else {
+          qrCodeContainer.appendChild(canvas);
+          wrapper.style.display = "block";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
