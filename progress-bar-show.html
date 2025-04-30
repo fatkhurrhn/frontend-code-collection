@@ -2,179 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Progress Bar Showcase</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <title>Multi Progress Bars</title>
   <style>
-    :root {
-      --primary: #4361ee;
-      --secondary: #3f37c9;
-      --accent: #4895ef;
-      --dark: #1b263b;
-      --light: #f8f9fa;
-      --success: #4cc9f0;
-      --warning: #f72585;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fbfd;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem 1rem;
-      color: var(--dark);
+      padding: 40px 20px;
     }
 
-    .header {
+    h1 {
+      margin-bottom: 30px;
+      color: #222;
+    }
+
+    .bar-container {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom:20px;
       text-align: center;
-      margin-bottom: 2.5rem;
-      animation: fadeIn 0.8s ease;
     }
 
-    .header h1 {
-      font-size: 2.5rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(to right, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .header p {
-      font-size: 1rem;
-      color: #6c757d;
-      font-style: italic;
-    }
-
-    .header p span {
-      color: var(--primary);
-      font-weight: 500;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 800px;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-      padding: 1.5rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      overflow: hidden;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--dark);
-    }
-
-    .progress-container {
-      width: 100%;
-      margin-top: 1rem;
-    }
-
-    /* Linear Progress Bar */
     .progress-bar {
-      height: 20px;
-      background: #e9ecef;
-      border-radius: 10px;
+      height: 25px;
+      background: #e0e0e0;
+      border-radius: 50px;
       overflow: hidden;
-      position: relative;
+      margin-top: 10px;
     }
 
     .progress-fill {
       height: 100%;
       width: 0;
-      border-radius: 10px;
-      transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
-      position: relative;
-    }
-
-    .basic .progress-fill {
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-    }
-
-    .striped .progress-fill {
-      background: repeating-linear-gradient(
-        45deg,
-        var(--primary),
-        var(--primary) 10px,
-        var(--accent) 10px,
-        var(--accent) 20px
-      );
-      background-size: 200% 100%;
-      animation: moveStripes 2s linear infinite;
-    }
-
-    .gradient .progress-fill {
-      background: linear-gradient(90deg, #ff6a00, #ee0979);
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      border-radius: 50px;
+      transition: width 0.3s ease;
     }
 
     .progress-text {
-      margin-top: 0.5rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #6c757d;
-      display: flex;
-      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #444;
     }
 
-    /* Circular Progress */
-    .circle-container {
-      display: flex;
-      justify-content: center;
-      margin: 1.5rem 0;
+    .striped-bar .progress-fill {
+      background: repeating-linear-gradient(
+        45deg,
+        #6a11cb,
+        #6a11cb 10px,
+        #2575fc 10px,
+        #2575fc 20px
+      );
+      animation: moveStripes 1s linear infinite;
+    }
+
+    @keyframes moveStripes {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 0; }
     }
 
     .circle-wrapper {
       position: relative;
       width: 120px;
       height: 120px;
+      margin: 0 auto;
     }
 
     .circle-bg {
-      stroke: #e9ecef;
-      stroke-width: 8;
-      fill: none;
+      stroke: #e6e6e6;
+      stroke-width: 10;
     }
 
-    .circle-progress {
-      stroke: var(--primary);
-      stroke-width: 8;
+    .circle {
+      stroke: #ff6a00;
+      stroke-width: 10;
       stroke-linecap: round;
       fill: none;
       stroke-dasharray: 314;
       stroke-dashoffset: 314;
-      transition: stroke-dashoffset 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-      transform: rotate(-90deg);
-      transform-origin: 50% 50%;
+      transition: stroke-dashoffset 0.3s ease;
     }
 
     .circle-text {
@@ -182,282 +91,102 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-weight: 600;
-      font-size: 1.5rem;
-      color: var(--primary);
+      font-weight: bold;
+      font-size: 18px;
+      color: #ff6a00;
     }
 
-    /* Buttons */
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      font-weight: 500;
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #0072ff;
+      color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s ease;
     }
 
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--secondary);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(67, 97, 238, 0.2);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-    }
-
-    .btn-outline:hover {
-      background: rgba(67, 97, 238, 0.1);
-      transform: translateY(-2px);
-    }
-
-    /* Animations */
-    @keyframes moveStripes {
-      0% { background-position: 0 0; }
-      100% { background-position: 40px 0; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(67, 97, 238, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header h1 {
-        font-size: 2rem;
-      }
-      
-      .card {
-        padding: 1.25rem;
-      }
-      
-      .controls {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .btn {
-        width: 100%;
-        max-width: 250px;
-      }
+    button:hover {
+      background: #0059c1;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>Progress Bar Showcase</h1>
-    <p>Designed by <span>Fatkhurrhn</span></p>
+
+    <div style="text-align: center;">
+        <h1 style="text-align:center;">Progress Bar Show</h1>
+        <P>by Fatkhurrhn</P>
+    </div>
+  <!-- Basic Progress Bar -->
+  <div class="bar-container">
+    <h3>Basic Progress Bar</h3>
+    <div class="progress-bar">
+      <div id="bar1" class="progress-fill"></div>
+    </div>
+    <div id="text1" class="progress-text">0%</div>
   </div>
 
-  <div class="container">
-    <!-- Basic Progress Bar -->
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Basic Progress Bar</h3>
-      </div>
-      <div class="progress-container">
-        <div class="progress-bar">
-          <div id="bar1" class="progress-fill basic"></div>
-        </div>
-        <div class="progress-text">
-          <span>Loading...</span>
-          <span id="text1">0%</span>
-        </div>
-      </div>
+  <!-- Striped Progress Bar -->
+  <div class="bar-container striped-bar">
+    <h3>Striped Progress Bar</h3>
+    <div class="progress-bar">
+      <div id="bar2" class="progress-fill"></div>
     </div>
+    <div id="text2" class="progress-text">0%</div>
+  </div>
 
-    <!-- Striped Progress Bar -->
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Striped Progress Bar</h3>
-      </div>
-      <div class="progress-container">
-        <div class="progress-bar">
-          <div id="bar2" class="progress-fill striped"></div>
-        </div>
-        <div class="progress-text">
-          <span>Processing...</span>
-          <span id="text2">0%</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Gradient Progress Bar -->
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Gradient Progress Bar</h3>
-      </div>
-      <div class="progress-container">
-        <div class="progress-bar">
-          <div id="bar3" class="progress-fill gradient"></div>
-        </div>
-        <div class="progress-text">
-          <span>Uploading...</span>
-          <span id="text3">0%</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Circular Progress Bar -->
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Circular Progress</h3>
-      </div>
-      <div class="circle-container">
-        <div class="circle-wrapper">
-          <svg width="120" height="120" viewBox="0 0 120 120">
-            <circle class="circle-bg" cx="60" cy="60" r="50"/>
-            <circle id="circle" class="circle-progress" cx="60" cy="60" r="50"/>
-          </svg>
-          <div id="circle-text" class="circle-text">0%</div>
-        </div>
-      </div>
-      <div class="progress-text" style="justify-content: center;">
-        <span id="circle-status">Initializing...</span>
-      </div>
+  <!-- Circular Progress Bar -->
+  <div class="bar-container">
+    <h3>Circular Progress</h3>
+    <div class="circle-wrapper">
+      <svg width="120" height="120">
+        <circle class="circle-bg" cx="60" cy="60" r="50"/>
+        <circle id="circle" class="circle" cx="60" cy="60" r="50"/>
+      </svg>
+      <div id="circle-text" class="circle-text">0%</div>
     </div>
   </div>
 
-  <div class="controls">
-    <button class="btn btn-primary" onclick="startProgress()">Start All Progress</button>
-    <button class="btn btn-outline" onclick="resetProgress()">Reset All</button>
-  </div>
+  <button onclick="startProgress()">Start All</button>
 
   <script>
-    // Animation functions
-    function animateBar(id, textId, duration = 2000, statusText = "") {
+    function animateBar(id, textId, duration = 2000) {
       let bar = document.getElementById(id);
       let text = document.getElementById(textId);
       let width = 0;
       let interval = setInterval(() => {
         if (width >= 100) {
           clearInterval(interval);
-          if (statusText) {
-            text.textContent = statusText;
-          }
         } else {
           width++;
           bar.style.width = width + "%";
           text.textContent = width + "%";
         }
       }, duration / 100);
-      return interval;
     }
 
     function animateCircle(duration = 2000) {
       let circle = document.getElementById("circle");
       let text = document.getElementById("circle-text");
-      let status = document.getElementById("circle-status");
       let percent = 0;
       let interval = setInterval(() => {
         if (percent >= 100) {
           clearInterval(interval);
-          status.textContent = "Completed!";
-          status.style.color = "#4BB543";
         } else {
           percent++;
           let offset = 314 - (314 * percent / 100);
           circle.style.strokeDashoffset = offset;
           text.textContent = percent + "%";
-          
-          // Update status text during progress
-          if (percent < 30) {
-            status.textContent = "Initializing...";
-          } else if (percent < 70) {
-            status.textContent = "Processing...";
-          } else {
-            status.textContent = "Finishing up...";
-          }
         }
       }, duration / 100);
-      return interval;
     }
-
-    // Control variables
-    let intervals = [];
-    let isAnimating = false;
 
     function startProgress() {
-      if (isAnimating) return;
-      isAnimating = true;
-      
-      // Clear any existing intervals
-      intervals.forEach(clearInterval);
-      intervals = [];
-      
-      // Reset all elements to 0
-      document.querySelectorAll('.progress-fill').forEach(el => el.style.width = '0%');
-      document.querySelectorAll('.progress-text span:last-child').forEach(el => el.textContent = '0%');
-      document.getElementById('circle').style.strokeDashoffset = '314';
-      document.getElementById('circle-text').textContent = '0%';
-      document.getElementById('circle-status').textContent = 'Initializing...';
-      document.getElementById('circle-status').style.color = '';
-      
-      // Start animations with different durations for variety
-      intervals.push(animateBar("bar1", "text1", 1800, "Completed!"));
-      intervals.push(animateBar("bar2", "text2", 2200, "Done!"));
-      intervals.push(animateBar("bar3", "text3", 2500, "Upload complete!"));
-      intervals.push(animateCircle(3000));
-      
-      // Reset animation state when all are complete
-      setTimeout(() => {
-        isAnimating = false;
-      }, 3000);
+      animateBar("bar1", "text1");
+      animateBar("bar2", "text2");
+      animateCircle();
     }
-
-    function resetProgress() {
-      // Clear all animations
-      intervals.forEach(clearInterval);
-      intervals = [];
-      isAnimating = false;
-      
-      // Reset all elements to 0
-      document.querySelectorAll('.progress-fill').forEach(el => el.style.width = '0%');
-      document.querySelectorAll('.progress-text span:last-child').forEach(el => el.textContent = '0%');
-      document.querySelectorAll('.progress-text span:first-child').forEach(el => {
-        if (el.id !== 'circle-status') {
-          el.textContent = el.textContent.replace('Completed!', 'Loading...')
-                                       .replace('Done!', 'Processing...')
-                                       .replace('Upload complete!', 'Uploading...');
-        }
-      });
-      
-      // Reset circular progress
-      document.getElementById('circle').style.strokeDashoffset = '314';
-      document.getElementById('circle-text').textContent = '0%';
-      document.getElementById('circle-status').textContent = 'Initializing...';
-      document.getElementById('circle-status').style.color = '';
-    }
-
-    // Initialize with one progress bar animating to show something is working
-    window.onload = function() {
-      animateBar("bar1", "text1", 1500);
-    };
   </script>
 </body>
 </html>
